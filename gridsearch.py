@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+ -*- coding: utf-8 -*-
 """
 Created on Mon Jun 20 17:46:20 2016
 
@@ -46,7 +46,6 @@ class grid_square(object):
             self.G=-99
             self.pc1=-99
             self.pc2=-99
-        
     def printD(self):
         return "[%3.2f,%3.2f],"%(self.D.mean,self.D.std)
         
@@ -61,10 +60,10 @@ D,C,G,_=cf.get_parameter_space()
         
 fullres=np.load('fullres.npy')
 
-full=fullres[fullres['flag']=='True'] #takes only present clusters
+# full=fullres[fullres['flag']=='True'] #takes only present clusters
+full=fullres[fullres['flag']==b'True'] #takes only present clusters
 
 full['C'][full['C']>5]=4 #relabels c=infty
-
 pcs=cf.transform_to_pc(full[['logN','logR','mbar','sbar','muMST','stdMST']])
 
 alldat=np.zeros(full.shape,dtype=[('D', '<f8'),
@@ -180,7 +179,8 @@ if plot_std:
 fig.colorbar(im1,ax=ax2,pad=0)
 if plot_std:
     fig.colorbar(im2,ax=ax3,pad=0)
+    
 
-#plt.savefig("grid_"+thing+".pdf")
-
-#np.save('pcgrid',grid_info,allow_pickle=True)
+# plt.savefig("grid_"+thing+".pdf")
+# print(grid_info)
+# np.save('pcgrid',grid_info)
