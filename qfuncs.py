@@ -157,11 +157,11 @@ def justMST(x,y,z=[8]):
         grid=np.zeros((len(x),len(y)))
         all_edges=[]
         for i in range(len(x)):
-          for j in range(len(x)):
-            if i!=j:
-              if grid[j][i]==0:
-                grid[i][j]=np.sqrt((x[i]-x[j])**2+(y[i]-y[j])**2)
-                all_edges.append(grid[i][j])   
+            for j in range(len(x)):
+                if i!=j:
+                    if grid[j][i]==0:
+                        grid[i][j]=np.sqrt((x[i]-x[j])**2+(y[i]-y[j])**2)
+                        all_edges.append(grid[i][j])   
         Tcsr = minimum_spanning_tree(grid,overwrite=True)
         mst=Tcsr.toarray().astype(float)
     
@@ -170,16 +170,16 @@ def justMST(x,y,z=[8]):
         grid=np.zeros((length,length))
         all_edges=[]
         for i in range(length):
-          for j in range(length):
-            if i!=j:
-              if grid[j][i]==0:
-                grid[i][j]=np.sqrt((x[i]-x[j])**2+(y[i]-y[j])**2+(z[i]-z[j])**2)
-                all_edges.append(grid[i][j])   
+            for j in range(length):
+                if i!=j:
+                    if grid[j][i]==0:
+                        grid[i][j]=np.sqrt((x[i]-x[j])**2+(y[i]-y[j])**2+(z[i]-z[j])**2)
+                        all_edges.append(grid[i][j])   
         #make mst
         Tcsr = minimum_spanning_tree(grid,overwrite=True)
         mst=Tcsr.toarray().astype(float)
     else:
-        print "Error: x,y, and z must have the same length"
+        print("Error: x,y, and z must have the same length")
         quit()
     return mst, all_edges
     
@@ -314,11 +314,12 @@ def cartesian(arrays, out=None):
     if out is None:
         out = np.zeros([n, len(arrays)], dtype=dtype)
 
-    m = n / arrays[0].size
+    # m = n / arrays[0].size
+    m = n // arrays[0].size
     out[:,0] = np.repeat(arrays[0], m)
     if arrays[1:]:
         cartesian(arrays[1:], out=out[0:m,1:])
-        for j in xrange(1, arrays[0].size):
+        for j in range(1, arrays[0].size):
             out[j*m:(j+1)*m,1:] = out[0:m,1:]
     return out
     
@@ -353,6 +354,7 @@ def transform_to_pc(tdata,method='cov'):
         #multiply by eigenvecors
         eig=np.load('eigenfull.npz')
         evects=eig['evects'][:,:2]
+        #print(meaned.shape)
         newData=np.dot(evects.T,meaned)
     elif method=='corr':
         tmp=np.load('new_fullmeans.npz')
