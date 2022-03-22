@@ -16,9 +16,21 @@ import sys
 import warnings
 warnings.filterwarnings("ignore")
 
+
 plt.rcParams.update({'font.size': 10, 'font.family':'serif','text.usetex':False})
 
-execfile('gridsearch.py')
+# def execfile(filepath, globals=None, locals=None):
+#     if globals is None:
+#         globals = {}
+#     globals.update({
+#         "__file__": filepath,
+#         "__name__": "__main__",
+#     })
+#     with open(filepath, 'rb') as file:
+#         exec(compile(file.read(), filepath, 'exec'), globals, locals)
+
+# execfile('gridsearch.py')
+exec(open("gridsearch.py").read())
 
 D=np.array([ 1.       ,  1.5849625,  2.       ])
 C=np.array([  22.,   3.,  2.])
@@ -30,20 +42,20 @@ llist=[]
 datafile=sys.argv[1]
 
 
-
 fout=sys.stdout
 
-ucols=sys.argv[2]
-ucols=map(int, ucols.strip('[]').split(','))
+# ucols=sys.argv[2]
+# ucols=map(int, ucols.strip('[]').split(','))
 
 #fout.write("\n"+datafile+"\n")
-print "%s\n"%datafile,
+print("%s\n"%datafile)
 #print ucols
 #try:
-res,x,y=cf.makeMST(datafile,ucols=ucols)
+# res,x,y=cf.makeMST(datafile,ucols=ucols)
+res,x,y=cf.makeMST(datafile)
 
 if len(x)<10:
-    print "Only %i stars"%len(x)
+    print("Only %i stars"%len(x))
 
 data=np.array([(res[4],
                res[5], 
@@ -60,9 +72,9 @@ data=np.array([(res[4],
 
 Q=data['mbar']/data['sbar']
 if Q>0.9:
-    print "Q = %3.2f: this cluster may be centrally concentrated"%Q
+    print("Q = %3.2f: this cluster may be centrally concentrated"%Q)
     #continue
-                     
+
 pcs=cf.transform_to_pc(data)
 
 A_measure=res[6]
@@ -71,7 +83,7 @@ l1,=ax.plot(pcs[0,0],pcs[1,0],'*',markersize=20,label=datafile)#,mfc=datafile[1]
 #af = ap.AnnoteFinder([pcs[0,0]],[pcs[1,0]], [dataname], ax=ax2)
 #fig.canvas.mpl_connect('button_press_event', af)
 
-#grid_info=np.load('pcgrid.npy')
+# grid_info=np.load('pcgrid.npy', allow_pickle=True)
 
 llist.append(l1)
 
@@ -81,9 +93,9 @@ p2=pcs[1,0]
 tmp=True
 while tmp:
 
-    print "PC1 = %3.2f, PC2 = %3.2f"%(p1,p2)
+    print("PC1 = %3.2f, PC2 = %3.2f"%(p1,p2))
     if p2<-0.3:
-        print "This cluster is on the edge of parameter space \nand may not be fractally substructured: PC2<-0.3"
+        print("This cluster is on the edge of parameter space \nand may not be fractally substructured: PC2<-0.3")
     
     try:
         thissquare,_=cf.find_square(grid_info,p1,p2)
